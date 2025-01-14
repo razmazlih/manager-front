@@ -19,6 +19,8 @@ function RestaurantDetails() {
     const [editCity, setEditCity] = useState('');
     const [editHours, setEditHours] = useState([]);
 
+    const [newCategoryName, setNewCategoryName] = useState('');
+
     useEffect(() => {
         const fetchDetails = async () => {
             try {
@@ -127,6 +129,20 @@ function RestaurantDetails() {
         }
     };
 
+    const handleCreateCategory = async (name) => {
+        try {
+            const response = await dashboardApi.post(`/menu/category/`, {
+                name: name,
+                restaurant: restaurantId,
+            });
+            setMenu((prevMenu) => [...prevMenu, response.data]);
+            alert('Category created successfully!');
+        } catch (err) {
+            alert('Failed to create category.');
+        }
+    };
+
+
     if (loading) {
         return <div>Loading data...</div>;
     }
@@ -176,6 +192,24 @@ function RestaurantDetails() {
                         handleMenuItemUpdate={handleMenuItemUpdate}
                     />
                 ))}
+                <div className="add-category">
+                    <input
+                        type="text"
+                        placeholder="New category name"
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                    />
+                    <button
+                        onClick={() => {
+                            if (newCategoryName.trim()) {
+                                handleCreateCategory(newCategoryName);
+                                setNewCategoryName('');
+                            }
+                        }}
+                    >
+                        Create Category
+                    </button>
+                </div>
             </div>
         </div>
     );

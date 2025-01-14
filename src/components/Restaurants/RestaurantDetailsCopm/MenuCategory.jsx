@@ -3,7 +3,8 @@ import MenuItemEditor from './MenuItemEditor';
 
 function MenuCategory({ category, handleUpdateCategory, handleMenuItemUpdate }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [editedName, setEditedName] = useState(category.name);
+    const [editedName, setEditedName] = useState(category?.name || '');
+
 
     return (
         <div className="menu-category">
