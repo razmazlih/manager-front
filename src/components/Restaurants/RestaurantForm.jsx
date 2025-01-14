@@ -1,71 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { dashboardApi } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
-function RestaurantForm({ restaurantId, onSuccess }) {
+function RestaurantForm() {
   const [name, setName] = useState('');
+  const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (restaurantId) {
-      const fetchRestaurant = async () => {
-        try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL}/restaurants/${restaurantId}`);
-          setName(response.data.name);
-          setAddress(response.data.address);
-        } catch (error) {
-          console.error('Error fetching restaurant:', error);
-        }
-      };
-
-      fetchRestaurant();
-    }
-  }, [restaurantId]);
+  const navigate = useNavigate('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (restaurantId) {
-        // Update existing restaurant
-        await axios.put(`${process.env.REACT_APP_API_URL}/restaurants/${restaurantId}`, { name, address });
-        alert('Restaurant updated successfully.');
-      } else {
-        // Add new restaurant
-        await axios.post(`${process.env.REACT_APP_API_URL}/restaurants`, { name, address });
-        alert('Restaurant added successfully.');
-      }
-      onSuccess();
+      const newRestaurantData = { name, city, address };
+
+      const { data } = await dashboardApi.post('/restaurants/info/', newRestaurantData);
+      navigate(`/restaurant/${data.id}`)
     } catch (error) {
-      console.error('Error saving restaurant:', error);
-      alert('Failed to save restaurant.');
+      console.error('Error adding restaurant:', error);
+      alert('Failed to add restaurant.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form className="restaurant-form" onSubmit={handleSubmit}>
-      <h2>{restaurantId ? 'Edit Restaurant' : 'Add New Restaurant'}</h2>
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        required
-      />
-      <button type="submit" disabled={loading}>
-        {loading ? 'Saving...' : 'Save'}
-      </button>
-    </form>
+    <div className="restaurant-form-page">
+      <h2>Add New Restaurant</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Enter restaurant name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="city">City:</label>
+          <input
+            id="city"
+            type="text"
+            placeholder="Enter city"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="address">Address:</label>
+          <input
+            id="address"
+            type="text"
+            placeholder="Enter address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Saving...' : 'Add Restaurant'}
+        </button>
+      </form>
+    </div>
   );
 }
 

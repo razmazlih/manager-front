@@ -6,6 +6,8 @@ import UsersPage from './pages/UsersPage';
 import RestaurantsPage from './pages/RestaurantsPage';
 import OrdersPage from './pages/OrdersPage';
 import Navbar from './components/Navbar/Navbar';
+import RestaurantDetails from './components/Restaurants/RestaurantDetails';
+import RestaurantForm from './components/Restaurants/RestaurantForm';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/restaurants" element={<RestaurantsPage />} />
+        <Route path="/restaurants/:id" element={<RestaurantDetails />} />
+        <Route path="/restaurants/create" element={<RestaurantForm />} />
         <Route path="/orders" element={<OrdersPage />} />
       </Routes>
     </Router>

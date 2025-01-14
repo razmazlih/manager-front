@@ -1,55 +1,99 @@
-/* עיצוב בסיסי לרשימה וטפסים */
-.restaurant-list-container,
-.restaurant-details-container,
-.restaurant-form {
+/* Container styles */
+.restaurant-list {
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.restaurant-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
+.restaurant-list__title {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #333;
 }
 
-.restaurant-table th,
-.restaurant-table td {
-  border: 1px solid #ddd;
-  text-align: center;
-  padding: 8px;
+/* Controls */
+.restaurant-list__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.restaurant-table th {
-  background-color: #f4f4f4;
+.restaurant-list__search {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
 }
 
-.restaurant-table tr:hover {
-  background-color: #f1f1f1;
+.restaurant-list__search:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
 }
 
-button {
-  margin: 5px;
-  padding: 5px 10px;
-  background-color: #007bff;
+.restaurant-list__button {
+  padding: 10px 20px;
+  font-size: 1rem;
   color: white;
+  background-color: #007bff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
+.restaurant-list__button:hover {
   background-color: #0056b3;
 }
 
-.restaurant-form input {
-  display: block;
+/* Table */
+.restaurant-list__table {
   width: 100%;
-  margin: 10px 0;
-  padding: 8px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.restaurant-list__thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.restaurant-list__header-row {
+  text-align: left;
+}
+
+.restaurant-list__header {
+  padding: 12px;
   font-size: 1rem;
 }
 
-.restaurant-form button {
-  width: 100%;
-  padding: 10px;
+.restaurant-list__tbody .restaurant-list__row:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.restaurant-list__row:hover {
+  background-color: #f0f8ff;
+  cursor: pointer;
+}
+
+.restaurant-list__cell {
+  padding: 12px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Loading and error states */
+.restaurant-list__loading,
+.restaurant-list__error {
+  text-align: center;
+  color: #666;
+  font-size: 1.2rem;
 }
