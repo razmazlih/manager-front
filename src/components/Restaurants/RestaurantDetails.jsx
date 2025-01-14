@@ -18,7 +18,6 @@ function RestaurantDetails() {
     const [editName, setEditName] = useState('');
     const [editAddress, setEditAddress] = useState('');
     const [editCity, setEditCity] = useState('');
-    const [editHours, setEditHours] = useState([]);
 
     const [newCategoryName, setNewCategoryName] = useState('');
 
@@ -42,7 +41,6 @@ function RestaurantDetails() {
                     `/restaurants/opening-houers/?restaurant_id=${restaurantId}`
                 );
                 setOpeningHours(hoursResponse.data);
-                setEditHours(hoursResponse.data);
             } catch (err) {
                 setError('Failed to fetch data.');
             } finally {
@@ -71,9 +69,9 @@ function RestaurantDetails() {
         }
     };
 
-    const handleUpdateHours = async () => {
+    const handleUpdateHours = async (days) => {
         try {
-            for (const day of editHours) {
+            for (const day of days) {
                 await dashboardApi.patch(
                     `/restaurants/opening-houers/${day.id}/?restaurant_id=${restaurantId}`,
                     {
@@ -83,7 +81,7 @@ function RestaurantDetails() {
                     }
                 );
             }
-            setOpeningHours(editHours);
+            setOpeningHours(days);
             alert('Opening hours updated successfully!');
         } catch (err) {
             alert('Failed to update opening hours.');
@@ -166,7 +164,6 @@ function RestaurantDetails() {
             <OpeningHours
                 openingHours={openingHours}
                 onSave={handleUpdateHours}
-                onCancel={() => setEditHours(openingHours)}
             />
 
             <div className="menu-container">

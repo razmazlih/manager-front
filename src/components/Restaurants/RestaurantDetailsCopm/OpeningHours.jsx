@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import './styles/OpeningHours.css';
 
-function OpeningHours({ openingHours, onSave, onCancel }) {
+function OpeningHours({ openingHours, onSave }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editHours, setEditHours] = useState(openingHours);
 
     const handleSave = () => {
         onSave(editHours);
+        console.log(editHours);
         setIsEditing(false);
     };
 
     const handleCancel = () => {
         setEditHours(openingHours);
         setIsEditing(false);
-        if (onCancel) onCancel();
     };
 
     return (
