@@ -1,0 +1,81 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './RestaurantList.css';
+
+function RestaurantList() {
+  const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/restaurants`);
+        setRestaurants(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch restaurants.');
+        setLoading(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, []);
+
+  if (loading) {
+    return <div className="restaurant-loading">Loading restaurants...</div>;
+  }
+
+  if (error) {
+    return <div className="restaurant-error">{error}</div>;
+  }
+
+  return (
+    <div className="restaurant-list-container">
+      <h1>Restaurants</h1>
+      <table className="restaurant-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {restaurants.map((restaurant) => (
+            <tr key={restaurant.id}>
+              <td>{restaurant.id}</td>
+              <td>{restaurant.name}</td>
+              <td>{restaurant.address}</td>
+              <td>
+                <button onClick={() => handleEdit(restaurant.id)}>Edit</button>
+                <button onClick={() => handleDelete(restaurant.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const handleEdit = (id) => {
+  console.log(`Editing restaurant ${id}`);
+  // Navigate to the edit form or display a modal
+};
+
+const handleDelete = async (id) => {
+  if (window.confirm('Are you sure you want to delete this restaurant?')) {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/restaurants/${id}`);
+      alert('Restaurant deleted successfully.');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting restaurant:', error);
+      alert('Failed to delete restaurant.');
+    }
+  }
+};
+
+export default RestaurantList;
