@@ -4,6 +4,7 @@ import { dashboardApi } from '../../services/api';
 import './RestaurantDetails.css';
 import MenuCategory from './RestaurantDetailsCopm/MenuCategory';
 import OpeningHours from './RestaurantDetailsCopm/OpeningHours';
+import EditRestaurantInfo from './RestaurantDetailsCopm/EditRestaurantInfo';
 
 function RestaurantDetails() {
     const { restaurantId } = useParams();
@@ -142,7 +143,6 @@ function RestaurantDetails() {
         }
     };
 
-
     if (loading) {
         return <div>Loading data...</div>;
     }
@@ -153,35 +153,22 @@ function RestaurantDetails() {
 
     return (
         <div className="restaurant-details-container">
-            {/* Restaurant Info Section */}
-            <div className="restaurant-info">
-                <h1>Edit Restaurant Info</h1>
-                <input
-                    type="text"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                />
-                <input
-                    type="text"
-                    value={editCity}
-                    onChange={(e) => setEditCity(e.target.value)}
-                />
-                <input
-                    type="text"
-                    value={editAddress}
-                    onChange={(e) => setEditAddress(e.target.value)}
-                />
-                <button onClick={handleUpdateRestaurantInfo}>Save</button>
-            </div>
+            <EditRestaurantInfo
+                editName={editName}
+                setEditName={setEditName}
+                editCity={editCity}
+                setEditCity={setEditCity}
+                editAddress={editAddress}
+                setEditAddress={setEditAddress}
+                handleUpdateRestaurantInfo={handleUpdateRestaurantInfo}
+            />
 
-            {/* Opening Hours Section */}
             <OpeningHours
                 openingHours={openingHours}
                 onSave={handleUpdateHours}
                 onCancel={() => setEditHours(openingHours)}
             />
 
-            {/* Menu Section */}
             <div className="menu-container">
                 <h2>Edit Menu</h2>
                 {menu.map((category) => (
