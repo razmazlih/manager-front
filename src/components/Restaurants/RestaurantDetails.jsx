@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { dashboardApi } from '../../services/api';
 import './RestaurantDetails.css';
+import MenuCategory from './RestaurantDetailsCopm/MenuCategory';
+import OpeningHours from './RestaurantDetailsCopm/OpeningHours';
 
 function RestaurantDetails() {
     const { restaurantId } = useParams();
@@ -14,8 +16,8 @@ function RestaurantDetails() {
     // States for editing
     const [editName, setEditName] = useState('');
     const [editAddress, setEditAddress] = useState('');
+    const [editCity, setEditCity] = useState('');
     const [editHours, setEditHours] = useState([]);
-    const [isEditingHours, setIsEditingHours] = useState(false); // Editing state for opening hours
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -25,6 +27,7 @@ function RestaurantDetails() {
                 );
                 setRestaurantInfo(restaurantResponse.data);
                 setEditName(restaurantResponse.data.name);
+                setEditCity(restaurantResponse.data.city);
                 setEditAddress(restaurantResponse.data.address);
 
                 const menuResponse = await dashboardApi.get(
@@ -49,8 +52,9 @@ function RestaurantDetails() {
 
     const handleUpdateRestaurantInfo = async () => {
         try {
-            await dashboardApi.put(`/restaurants/info/${restaurantId}`, {
+            await dashboardApi.patch(`/restaurants/info/${restaurantId}/`, {
                 name: editName,
+                city: editCity,
                 address: editAddress,
             });
             setRestaurantInfo({
@@ -77,16 +81,29 @@ function RestaurantDetails() {
                 );
             }
             setOpeningHours(editHours);
-            setIsEditingHours(false); // Exit edit mode after saving
             alert('Opening hours updated successfully!');
         } catch (err) {
             alert('Failed to update opening hours.');
         }
     };
 
-    const handleCancelEditing = () => {
-        setEditHours(openingHours); // Restore original values
-        setIsEditingHours(false);
+    const handleUpdateCategory = async (categoryId, updatedCategory) => {
+        try {
+            await dashboardApi.patch(
+                `/menu/category/${categoryId}/`,
+                updatedCategory
+            );
+            setMenu((prevMenu) =>
+                prevMenu.map((category) =>
+                    category.id === categoryId
+                        ? { ...category, ...updatedCategory }
+                        : category
+                )
+            );
+            alert('Category updated successfully!');
+        } catch (err) {
+            alert('Failed to update category.');
+        }
     };
 
     const handleMenuItemUpdate = async (categoryId, itemId, updatedItem) => {
@@ -130,6 +147,11 @@ function RestaurantDetails() {
                 />
                 <input
                     type="text"
+                    value={editCity}
+                    onChange={(e) => setEditCity(e.target.value)}
+                />
+                <input
+                    type="text"
                     value={editAddress}
                     onChange={(e) => setEditAddress(e.target.value)}
                 />
@@ -137,102 +159,22 @@ function RestaurantDetails() {
             </div>
 
             {/* Opening Hours Section */}
-            <div className="opening-hours">
-                <h2>Opening Hours</h2>
-                {!isEditingHours ? (
-                    <>
-                        {openingHours.length > 0 ? (
-                            openingHours.map((day, index) => (
-                                <div key={index}>
-                                    <p>
-                                        <strong>{day.day_of_week}:</strong>{' '}
-                                        {day.opening_time} - {day.closing_time}
-                                    </p>
-                                </div>
-                            ))
-                        ) : (
-                            <p>No opening hours available.</p>
-                        )}
-                        <button onClick={() => setIsEditingHours(true)}>Edit</button>
-                    </>
-                ) : (
-                    <>
-                        {editHours.map((day, index) => (
-                            <div key={index}>
-                                <label>{day.day_of_week}:</label>
-                                <input
-                                    type="time"
-                                    value={day.opening_time}
-                                    onChange={(e) =>
-                                        setEditHours((prev) => {
-                                            const updated = [...prev];
-                                            updated[index].opening_time =
-                                                e.target.value;
-                                            return updated;
-                                        })
-                                    }
-                                />
-                                <input
-                                    type="time"
-                                    value={day.closing_time}
-                                    onChange={(e) =>
-                                        setEditHours((prev) => {
-                                            const updated = [...prev];
-                                            updated[index].closing_time =
-                                                e.target.value;
-                                            return updated;
-                                        })
-                                    }
-                                />
-                            </div>
-                        ))}
-                        <button onClick={handleUpdateHours}>Save</button>
-                        <button onClick={handleCancelEditing}>Cancel</button>
-                    </>
-                )}
-            </div>
+            <OpeningHours
+                openingHours={openingHours}
+                onSave={handleUpdateHours}
+                onCancel={() => setEditHours(openingHours)}
+            />
 
             {/* Menu Section */}
             <div className="menu-container">
                 <h2>Edit Menu</h2>
                 {menu.map((category) => (
-                    <div key={category.id} className="menu-category">
-                        <h3>{category.name}</h3>
-                        <ul>
-                            {category.items.map((item) => (
-                                <li key={item.id}>
-                                    <input
-                                        type="text"
-                                        value={item.name}
-                                        onChange={(e) =>
-                                            handleMenuItemUpdate(
-                                                category.id,
-                                                item.id,
-                                                {
-                                                    ...item,
-                                                    name: e.target.value,
-                                                }
-                                            )
-                                        }
-                                    />
-                                    <input
-                                        type="number"
-                                        value={item.price}
-                                        onChange={(e) =>
-                                            handleMenuItemUpdate(
-                                                category.id,
-                                                item.id,
-                                                {
-                                                    ...item,
-                                                    price: e.target.value,
-                                                }
-                                            )
-                                        }
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <MenuCategory
+                        key={category.id}
+                        category={category}
+                        handleUpdateCategory={handleUpdateCategory}
+                        handleMenuItemUpdate={handleMenuItemUpdate}
+                    />
                 ))}
             </div>
         </div>
