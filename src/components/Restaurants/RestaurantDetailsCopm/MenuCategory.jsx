@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MenuItemEditor from './MenuItemEditor';
 import AddMenuItem from './AddMenuItem';
 import { dashboardApi } from '../../../services/api';
+import './styles/MenuCategory.css';
 
 function MenuCategory({
     category,
@@ -19,7 +20,7 @@ function MenuCategory({
                 description: item.description,
                 category: category.id,
             });
-    
+
             handleUpdateCategory(category.id, {
                 ...category,
                 items: [...category.items, response.data],
@@ -31,11 +32,12 @@ function MenuCategory({
 
     return (
         <div className="menu-category">
-            <h3>
+            <h3 className="menu-category__title">
                 {!isEditing ? (
-                    <span>{category.name}</span>
+                    <span className="menu-category__name">{category.name}</span>
                 ) : (
                     <input
+                        className="menu-category__input"
                         type="text"
                         value={editedName}
                         onChange={(e) => setEditedName(e.target.value)}
@@ -43,10 +45,16 @@ function MenuCategory({
                 )}
             </h3>
             {!isEditing ? (
-                <button onClick={() => setIsEditing(true)}>Edit</button>
+                <button
+                    className="menu-category__edit-button"
+                    onClick={() => setIsEditing(true)}
+                >
+                    Edit
+                </button>
             ) : (
                 <>
                     <button
+                        className="menu-category__save-button"
                         onClick={() => {
                             handleUpdateCategory(category.id, {
                                 name: editedName,
@@ -56,10 +64,15 @@ function MenuCategory({
                     >
                         Save
                     </button>
-                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button
+                        className="menu-category__cancel-button"
+                        onClick={() => setIsEditing(false)}
+                    >
+                        Cancel
+                    </button>
                 </>
             )}
-            <ul>
+            <ul className="menu-category__items">
                 {category.items.map((item) => (
                     <MenuItemEditor
                         key={item.id}

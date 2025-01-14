@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './styles/MenuItemEditor.css';
 
 function MenuItemEditor({ item, categoryId, handleMenuItemUpdate }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -14,7 +15,7 @@ function MenuItemEditor({ item, categoryId, handleMenuItemUpdate }) {
     };
 
     const handleCancelClick = () => {
-        setEditedItem(item); // חזרה לערכים המקוריים
+        setEditedItem(item);
         setIsEditing(false);
     };
 
@@ -27,10 +28,11 @@ function MenuItemEditor({ item, categoryId, handleMenuItemUpdate }) {
     };
 
     return (
-        <li>
+        <li className="menu-item-editor">
             {isEditing ? (
                 <>
                     <input
+                        className="menu-item-editor__input"
                         type="text"
                         name="name"
                         value={editedItem.name}
@@ -38,6 +40,7 @@ function MenuItemEditor({ item, categoryId, handleMenuItemUpdate }) {
                         placeholder="Item Name"
                     />
                     <input
+                        className="menu-item-editor__input"
                         type="number"
                         name="price"
                         value={editedItem.price}
@@ -46,20 +49,44 @@ function MenuItemEditor({ item, categoryId, handleMenuItemUpdate }) {
                         min="0"
                     />
                     <input
+                        className="menu-item-editor__input"
                         type="text"
                         name="description"
                         value={editedItem.description}
                         onChange={handleChange}
                         placeholder="Description"
                     />
-                    <button onClick={handleSaveClick}>Save</button>
-                    <button onClick={handleCancelClick}>Cancel</button>
+                    <button
+                        className="menu-item-editor__save-button"
+                        onClick={handleSaveClick}
+                    >
+                        Save
+                    </button>
+                    <button
+                        className="menu-item-editor__cancel-button"
+                        onClick={handleCancelClick}
+                    >
+                        Cancel
+                    </button>
                 </>
             ) : (
                 <>
-                    <span>{item.name}</span> - <span>₪{item.price}</span>
-                    <p>{item.description}</p>
-                    <button onClick={handleEditClick}>Edit</button>
+                    <span className="menu-item-editor__name">
+                        {item.name}
+                    </span>{' '}
+                    -{' '}
+                    <span className="menu-item-editor__price">
+                        ₪{item.price}
+                    </span>
+                    <p className="menu-item-editor__description">
+                        {item.description}
+                    </p>
+                    <button
+                        className="menu-item-editor__edit-button"
+                        onClick={handleEditClick}
+                    >
+                        Edit
+                    </button>
                 </>
             )}
         </li>

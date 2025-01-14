@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './styles/EditRestaurantInfo.css';
 
 function EditRestaurantInfo({
     editName,
@@ -9,54 +10,67 @@ function EditRestaurantInfo({
     setEditAddress,
     handleUpdateRestaurantInfo,
 }) {
-    const [isEditing, setIsEditing] = useState(false); // מצב לעריכה
+    const [isEditing, setIsEditing] = useState(false);
 
     const handleEditClick = () => {
-        setIsEditing(true); // הפעלת מצב עריכה
+        setIsEditing(true);
     };
 
     const handleSaveClick = () => {
         handleUpdateRestaurantInfo();
-        setIsEditing(false); // יציאה ממצב עריכה לאחר שמירה
+        setIsEditing(false);
     };
 
     return (
-        <div className="restaurant-info">
-            <h1>Edit Restaurant Info</h1>
+        <div className="edit-restaurant-info-container">
+            <h1 className="edit-restaurant-info-title">Edit Restaurant Info</h1>
             {isEditing ? (
                 <>
                     <input
                         type="text"
+                        className="edit-restaurant-info-input"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
                         placeholder="Restaurant Name"
                     />
                     <input
                         type="text"
+                        className="edit-restaurant-info-input"
                         value={editCity}
                         onChange={(e) => setEditCity(e.target.value)}
                         placeholder="City"
                     />
                     <input
                         type="text"
+                        className="edit-restaurant-info-input"
                         value={editAddress}
                         onChange={(e) => setEditAddress(e.target.value)}
                         placeholder="Address"
                     />
-                    <button onClick={handleSaveClick}>Save</button>
+                    <button
+                        className="edit-restaurant-info-save-button"
+                        onClick={handleSaveClick}
+                    >
+                        Save
+                    </button>
                 </>
             ) : (
                 <>
-                    <p>
+                    <p className="edit-restaurant-info-text">
                         <strong>Name:</strong> {editName}
                     </p>
-                    <p>
+                    <p className="edit-restaurant-info-text">
                         <strong>City:</strong> {editCity}
                     </p>
-                    <p>
+                    <p className="edit-restaurant-info-text">
                         <strong>Address:</strong> {editAddress}
                     </p>
-                    <button onClick={handleEditClick}>Edit</button>
+                    <button
+                        className="edit-restaurant-info-edit-button"
+                        onClick={handleEditClick}
+                    >
+                        Edit
+                    </button>
                 </>
             )}
         </div>

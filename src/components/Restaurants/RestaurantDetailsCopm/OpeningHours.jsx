@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './styles/OpeningHours.css';
 
 function OpeningHours({ openingHours, onSave, onCancel }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -17,12 +18,12 @@ function OpeningHours({ openingHours, onSave, onCancel }) {
 
     return (
         <div className="opening-hours">
-            <h2>Opening Hours</h2>
+            <h2 className="opening-hours__title">Opening Hours</h2>
             {!isEditing ? (
                 <>
                     {openingHours.length > 0 ? (
                         openingHours.map((day, index) => (
-                            <div key={index}>
+                            <div className="opening-hours__day" key={index}>
                                 <p>
                                     <strong>{day.day_of_week}:</strong>{' '}
                                     {day.opening_time} - {day.closing_time}
@@ -30,16 +31,24 @@ function OpeningHours({ openingHours, onSave, onCancel }) {
                             </div>
                         ))
                     ) : (
-                        <p>No opening hours available.</p>
+                        <p className="opening-hours__no-data">
+                            No opening hours available.
+                        </p>
                     )}
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                    <button
+                        className="opening-hours__edit-button"
+                        onClick={() => setIsEditing(true)}
+                    >
+                        Edit
+                    </button>
                 </>
             ) : (
                 <>
                     {editHours.map((day, index) => (
-                        <div key={index}>
+                        <div className="opening-hours__input-group" key={index}>
                             <label>{day.day_of_week}:</label>
                             <input
+                                className="opening-hours__input"
                                 type="time"
                                 value={day.opening_time}
                                 onChange={(e) =>
@@ -52,6 +61,7 @@ function OpeningHours({ openingHours, onSave, onCancel }) {
                                 }
                             />
                             <input
+                                className="opening-hours__input"
                                 type="time"
                                 value={day.closing_time}
                                 onChange={(e) =>
@@ -65,8 +75,18 @@ function OpeningHours({ openingHours, onSave, onCancel }) {
                             />
                         </div>
                     ))}
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <button
+                        className="opening-hours__save-button"
+                        onClick={handleSave}
+                    >
+                        Save
+                    </button>
+                    <button
+                        className="opening-hours__cancel-button"
+                        onClick={handleCancel}
+                    >
+                        Cancel
+                    </button>
                 </>
             )}
         </div>
