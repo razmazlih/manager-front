@@ -110,7 +110,7 @@ function RestaurantDetails() {
 
     const handleMenuItemUpdate = async (categoryId, itemId, updatedItem) => {
         try {
-            await dashboardApi.put(`/menu/item/${itemId}`, updatedItem);
+            await dashboardApi.patch(`/menu/item/${itemId}/`, updatedItem);
             setMenu((prevMenu) =>
                 prevMenu.map((category) =>
                     category.id === categoryId
