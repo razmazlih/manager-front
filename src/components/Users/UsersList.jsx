@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { userApi } from '../../services/api';
 import './UsersList.css';
 
 function UsersList() {
@@ -10,7 +10,7 @@ function UsersList() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/users`);
+        const response = await userApi.get('/users');
         setUsers(response.data);
         setLoading(false);
       } catch (err) {
@@ -70,7 +70,7 @@ const handleEdit = (id) => {
 const handleDelete = async (id) => {
   if (window.confirm('Are you sure you want to delete this user?')) {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/users/${id}`);
+      await userApi.delete(`/users/${id}`); // שימוש ב-userApi למחיקה
       alert('User deleted successfully.');
       window.location.reload();
     } catch (error) {

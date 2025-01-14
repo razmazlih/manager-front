@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { userApi } from '../../services/api'; // שימוש ב-userApi
 import './UserForm.css';
 
 function UserForm({ userId, onSuccess }) {
@@ -13,7 +13,7 @@ function UserForm({ userId, onSuccess }) {
     if (userId) {
       const fetchUser = async () => {
         try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL}/users/${userId}`);
+          const response = await userApi.get(`/users/${userId}`); // שימוש ב-userApi
           setName(response.data.name);
           setEmail(response.data.email);
           setRole(response.data.role);
@@ -34,11 +34,11 @@ function UserForm({ userId, onSuccess }) {
     try {
       if (userId) {
         // Update existing user
-        await axios.put(`${process.env.REACT_APP_API_URL}/users/${userId}`, { name, email, role });
+        await userApi.put(`/users/${userId}`, { name, email, role }); // שימוש ב-userApi
         alert('User updated successfully!');
       } else {
         // Create new user
-        await axios.post(`${process.env.REACT_APP_API_URL}/users`, { name, email, role });
+        await userApi.post('/users', { name, email, role }); // שימוש ב-userApi
         alert('User created successfully!');
       }
       onSuccess();

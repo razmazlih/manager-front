@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { dashboardApi } from '../../services/api'; // ייבוא dashboardApi
 import './RestaurantList.css';
 
 function RestaurantList() {
@@ -10,7 +10,7 @@ function RestaurantList() {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/restaurants`);
+        const response = await dashboardApi.get('/restaurants'); // שימוש ב-dashboardApi
         setRestaurants(response.data);
         setLoading(false);
       } catch (err) {
@@ -68,7 +68,7 @@ const handleEdit = (id) => {
 const handleDelete = async (id) => {
   if (window.confirm('Are you sure you want to delete this restaurant?')) {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/restaurants/${id}`);
+      await dashboardApi.delete(`/restaurants/${id}`); // שימוש ב-dashboardApi למחיקה
       alert('Restaurant deleted successfully.');
       window.location.reload();
     } catch (error) {
