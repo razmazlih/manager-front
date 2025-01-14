@@ -26,3 +26,5 @@ yarn-error.log*
 text.txt
 
 .env
+
+test.html
