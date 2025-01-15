@@ -50,11 +50,10 @@ function EditRestaurantInfo({
                         placeholder="Address"
                     />
                     <input
-                        type="text"
+                        type="file"
                         className="edit-restaurant-info-input"
-                        value={editPhoto}
-                        onChange={(e) => setEditPhoto(e.target.value)}
-                        placeholder="Address"
+                        onChange={(e) => setEditPhoto(e.target.files[0])}
+                        placeholder="photo"
                     />
                     <button
                         className="edit-restaurant-info-save-button"

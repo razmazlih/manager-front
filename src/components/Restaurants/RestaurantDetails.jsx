@@ -8,7 +8,6 @@ import EditRestaurantInfo from './RestaurantDetailsCopm/EditRestaurantInfo';
 
 function RestaurantDetails() {
     const { restaurantId } = useParams();
-    const [restaurantInfo, setRestaurantInfo] = useState({});
     const [menu, setMenu] = useState([]);
     const [openingHours, setOpeningHours] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -28,7 +27,6 @@ function RestaurantDetails() {
                 const restaurantResponse = await dashboardApi.get(
                     `/restaurants/info/${restaurantId}`
                 );
-                setRestaurantInfo(restaurantResponse.data);
                 setEditName(restaurantResponse.data.name);
                 setEditCity(restaurantResponse.data.city);
                 setEditAddress(restaurantResponse.data.address);
@@ -53,17 +51,17 @@ function RestaurantDetails() {
     }, [restaurantId]);
 
     const handleUpdateRestaurantInfo = async () => {
+        const formData = new FormData();
+        formData.append('name', editName);
+        formData.append('city', editCity);
+        formData.append('address', editAddress);
+        if (editPhoto) formData.append('image', editPhoto); // הוסף את הקובץ אם קיים
+    
         try {
-            await dashboardApi.patch(`/restaurants/info/${restaurantId}/`, {
-                name: editName,
-                city: editCity,
-                address: editAddress,
-                photo: editPhoto,
-            });
-            setRestaurantInfo({
-                ...restaurantInfo,
-                name: editName,
-                address: editAddress,
+            await dashboardApi.patch(`/restaurants/info/${restaurantId}/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
             alert('Restaurant info updated successfully!');
         } catch (err) {
