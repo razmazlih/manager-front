@@ -18,6 +18,7 @@ function RestaurantDetails() {
     const [editAddress, setEditAddress] = useState('');
     const [editCity, setEditCity] = useState('');
     const [editPhoto, setEditPhoto] = useState('');
+    const [photoUrl, setPhotoUrl] = useState(''); 
 
     const [newCategoryName, setNewCategoryName] = useState('');
 
@@ -30,6 +31,7 @@ function RestaurantDetails() {
                 setEditName(restaurantResponse.data.name);
                 setEditCity(restaurantResponse.data.city);
                 setEditAddress(restaurantResponse.data.address);
+                setPhotoUrl(restaurantResponse.data.photo_url);
 
                 const menuResponse = await dashboardApi.get(
                     `/menu/category/?restaurant_id=${restaurantId}`
@@ -55,14 +57,15 @@ function RestaurantDetails() {
         formData.append('name', editName);
         formData.append('city', editCity);
         formData.append('address', editAddress);
-        if (editPhoto) formData.append('image', editPhoto); // הוסף את הקובץ אם קיים
+        if (editPhoto) formData.append('photo', editPhoto);
     
         try {
-            await dashboardApi.patch(`/restaurants/info/${restaurantId}/`, formData, {
+            const {data} = await dashboardApi.patch(`/restaurants/info/${restaurantId}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            setPhotoUrl(data.photo_url);
             alert('Restaurant info updated successfully!');
         } catch (err) {
             alert('Failed to update restaurant info.');
@@ -156,6 +159,7 @@ function RestaurantDetails() {
                 setEditName={setEditName}
                 editCity={editCity}
                 editPhoto={editPhoto}
+                photoUrl={photoUrl}
                 setEditCity={setEditCity}
                 editAddress={editAddress}
                 setEditAddress={setEditAddress}

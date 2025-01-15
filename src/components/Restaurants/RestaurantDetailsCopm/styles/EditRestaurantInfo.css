@@ -42,3 +42,12 @@
     font-size: 1.2em;
     margin: 10px 0;
 }
+
+.edit-restaurant-info-photo {
+    width: 300px; /* רוחב מותאם */
+    height: auto; /* שמירה על יחס תמונה */
+    border-radius: 8px; /* פינות מעוגלות */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* הצללה */
+    margin-top: 10px; /* ריווח מלמעלה */
+    display: block; /* מיקום עצמאי */
+}

@@ -5,7 +5,7 @@ function EditRestaurantInfo({
     editName,
     setEditName,
     editCity,
-    editPhoto,
+    photoUrl,
     setEditCity,
     editAddress,
     setEditAddress,
@@ -53,7 +53,6 @@ function EditRestaurantInfo({
                         type="file"
                         className="edit-restaurant-info-input"
                         onChange={(e) => setEditPhoto(e.target.files[0])}
-                        placeholder="photo"
                     />
                     <button
                         className="edit-restaurant-info-save-button"
@@ -73,10 +72,14 @@ function EditRestaurantInfo({
                     <p className="edit-restaurant-info-text">
                         <strong>Address:</strong> {editAddress}
                     </p>
+                    <p className="edit-restaurant-info-text">
+                        <strong>photo:</strong> <img className="edit-restaurant-info-photo" src={photoUrl} alt="" />
+                    </p>
                     <button
                         className="edit-restaurant-info-edit-button"
                         onClick={handleEditClick}
                     >
+
                         Edit
                     </button>
                 </>
