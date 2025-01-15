@@ -18,6 +18,7 @@ function RestaurantDetails() {
     const [editName, setEditName] = useState('');
     const [editAddress, setEditAddress] = useState('');
     const [editCity, setEditCity] = useState('');
+    const [editPhoto, setEditPhoto] = useState('');
 
     const [newCategoryName, setNewCategoryName] = useState('');
 
@@ -57,6 +58,7 @@ function RestaurantDetails() {
                 name: editName,
                 city: editCity,
                 address: editAddress,
+                photo: editPhoto,
             });
             setRestaurantInfo({
                 ...restaurantInfo,
@@ -155,9 +157,11 @@ function RestaurantDetails() {
                 editName={editName}
                 setEditName={setEditName}
                 editCity={editCity}
+                editPhoto={editPhoto}
                 setEditCity={setEditCity}
                 editAddress={editAddress}
                 setEditAddress={setEditAddress}
+                setEditPhoto={setEditPhoto}
                 handleUpdateRestaurantInfo={handleUpdateRestaurantInfo}
             />
 

@@ -5,9 +5,11 @@ function EditRestaurantInfo({
     editName,
     setEditName,
     editCity,
+    editPhoto,
     setEditCity,
     editAddress,
     setEditAddress,
+    setEditPhoto,
     handleUpdateRestaurantInfo,
 }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -45,6 +47,13 @@ function EditRestaurantInfo({
                         className="edit-restaurant-info-input"
                         value={editAddress}
                         onChange={(e) => setEditAddress(e.target.value)}
+                        placeholder="Address"
+                    />
+                    <input
+                        type="text"
+                        className="edit-restaurant-info-input"
+                        value={editPhoto}
+                        onChange={(e) => setEditPhoto(e.target.value)}
                         placeholder="Address"
                     />
                     <button
