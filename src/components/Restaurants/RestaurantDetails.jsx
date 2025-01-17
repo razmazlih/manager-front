@@ -78,7 +78,7 @@ function RestaurantDetails() {
                 await dashboardApi.patch(
                     `/restaurants/opening-houers/${day.id}/?restaurant_id=${restaurantId}`,
                     {
-                        is_open: true,
+                        is_open: day.is_open,
                         opening_time: day.opening_time,
                         closing_time: day.closing_time,
                     }
