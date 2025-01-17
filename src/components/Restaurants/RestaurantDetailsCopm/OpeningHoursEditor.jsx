@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import './styles/OpeningHours.css';
+import './styles/OpeningHoursEditor.css';
 
-function OpeningHours({ openingHours, onSave }) {
+function OpeningHoursEditor({ openingHours, onSave }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editHours, setEditHours] = useState(openingHours);
 
     const handleSave = () => {
         onSave(editHours);
-        console.log(editHours);
         setIsEditing(false);
     };
 
@@ -15,6 +14,8 @@ function OpeningHours({ openingHours, onSave }) {
         setEditHours(openingHours);
         setIsEditing(false);
     };
+
+    console.log(openingHours);
 
     return (
         <div className="opening-hours">
@@ -26,7 +27,12 @@ function OpeningHours({ openingHours, onSave }) {
                             <div className="opening-hours__day" key={index}>
                                 <p>
                                     <strong>{day.day_of_week}:</strong>{' '}
-                                    {day.opening_time} - {day.closing_time}
+                                    {day.opening_time} - {day.closing_time}{' '}
+                                    {day.is_open ? (
+                                        <strong>Open</strong>
+                                    ) : (
+                                        <strong>Closed</strong>
+                                    )}{' '}
                                 </p>
                             </div>
                         ))
@@ -73,6 +79,21 @@ function OpeningHours({ openingHours, onSave }) {
                                     })
                                 }
                             />
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={day.is_open}
+                                    onChange={(e) => {
+                                        setEditHours((prev) => {
+                                            const updated = [...prev];
+                                            updated[index].is_open =
+                                                e.target.checked;
+                                            return updated;
+                                        });
+                                    }}
+                                />
+                                Open
+                            </label>
                         </div>
                     ))}
                     <button
@@ -93,4 +114,4 @@ function OpeningHours({ openingHours, onSave }) {
     );
 }
 
-export default OpeningHours;
+export default OpeningHoursEditor;

@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { dashboardApi } from '../../services/api';
 import './RestaurantDetails.css';
 import MenuCategory from './RestaurantDetailsCopm/MenuCategory';
-import OpeningHours from './RestaurantDetailsCopm/OpeningHours';
 import EditRestaurantInfo from './RestaurantDetailsCopm/EditRestaurantInfo';
+import OpeningHoursEditor from './RestaurantDetailsCopm/OpeningHoursEditor';
 
 function RestaurantDetails() {
     const { restaurantId } = useParams();
@@ -167,7 +167,7 @@ function RestaurantDetails() {
                 handleUpdateRestaurantInfo={handleUpdateRestaurantInfo}
             />
 
-            <OpeningHours
+            <OpeningHoursEditor
                 openingHours={openingHours}
                 onSave={handleUpdateHours}
             />
