@@ -66,7 +66,6 @@ function RestaurantDetails() {
                 },
             });
             setPhotoUrl(data.photo_url);
-            alert('Restaurant info updated successfully!');
         } catch (err) {
             alert('Failed to update restaurant info.');
         }
@@ -85,7 +84,6 @@ function RestaurantDetails() {
                 );
             }
             setOpeningHours(days);
-            alert('Opening hours updated successfully!');
         } catch (err) {
             alert('Failed to update opening hours.');
         }
@@ -104,7 +102,6 @@ function RestaurantDetails() {
                         : category
                 )
             );
-            alert('Category updated successfully!');
         } catch (err) {
             alert('Failed to update category.');
         }
@@ -125,7 +122,6 @@ function RestaurantDetails() {
                         : category
                 )
             );
-            alert('Menu item updated successfully!');
         } catch (err) {
             alert('Failed to update menu item.');
         }
@@ -138,7 +134,6 @@ function RestaurantDetails() {
                 restaurant: restaurantId,
             });
             setMenu((prevMenu) => [...prevMenu, response.data]);
-            alert('Category created successfully!');
         } catch (err) {
             alert('Failed to create category.');
         }
